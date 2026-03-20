@@ -9,9 +9,9 @@ import (
 
 	"golang.org/x/term"
 
-	"github.com/builtbyrobben/posthog-cli/internal/config"
-	"github.com/builtbyrobben/posthog-cli/internal/outfmt"
-	"github.com/builtbyrobben/posthog-cli/internal/secrets"
+	"github.com/Robben-Media/posthog-cli/internal/config"
+	"github.com/Robben-Media/posthog-cli/internal/outfmt"
+	"github.com/Robben-Media/posthog-cli/internal/secrets"
 )
 
 type AuthCmd struct {

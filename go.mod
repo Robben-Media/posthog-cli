@@ -1,4 +1,4 @@
-module github.com/builtbyrobben/posthog-cli
+module github.com/Robben-Media/posthog-cli
 
 go 1.24.0
 

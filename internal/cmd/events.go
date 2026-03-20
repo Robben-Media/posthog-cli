@@ -7,7 +7,7 @@ import (
 	"net/url"
 	"os"
 
-	"github.com/builtbyrobben/posthog-cli/internal/outfmt"
+	"github.com/Robben-Media/posthog-cli/internal/outfmt"
 )
 
 type EventsCmd struct {

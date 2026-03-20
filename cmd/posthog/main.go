@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/builtbyrobben/posthog-cli/internal/cmd"
+	"github.com/Robben-Media/posthog-cli/internal/cmd"
 )
 
 func main() {

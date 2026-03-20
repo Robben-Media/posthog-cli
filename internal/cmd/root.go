@@ -9,8 +9,8 @@ import (
 
 	"github.com/alecthomas/kong"
 
-	"github.com/builtbyrobben/posthog-cli/internal/errfmt"
-	"github.com/builtbyrobben/posthog-cli/internal/outfmt"
+	"github.com/Robben-Media/posthog-cli/internal/errfmt"
+	"github.com/Robben-Media/posthog-cli/internal/outfmt"
 )
 
 type RootFlags struct {
