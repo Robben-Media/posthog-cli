@@ -6,7 +6,7 @@ import (
 	"os"
 	"runtime"
 
-	"github.com/builtbyrobben/posthog-cli/internal/outfmt"
+	"github.com/Robben-Media/posthog-cli/internal/outfmt"
 )
 
 var (

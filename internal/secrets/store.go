@@ -11,7 +11,7 @@ import (
 	"github.com/99designs/keyring"
 	"golang.org/x/term"
 
-	"github.com/builtbyrobben/posthog-cli/internal/config"
+	"github.com/Robben-Media/posthog-cli/internal/config"
 )
 
 type Store interface {

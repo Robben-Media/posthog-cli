@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/builtbyrobben/posthog-cli/internal/api"
-	"github.com/builtbyrobben/posthog-cli/internal/config"
-	"github.com/builtbyrobben/posthog-cli/internal/secrets"
+	"github.com/Robben-Media/posthog-cli/internal/api"
+	"github.com/Robben-Media/posthog-cli/internal/config"
+	"github.com/Robben-Media/posthog-cli/internal/secrets"
 )
 
 // getPostHogClient creates an API client from the keyring and config file.
