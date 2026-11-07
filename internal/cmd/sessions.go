@@ -43,15 +43,15 @@ func (cmd *SessionsListCmd) Run(ctx context.Context) error {
 	}
 
 	type session struct {
-		ID                 string  `json:"id"`
-		StartTime          string  `json:"start_time"`
-		EndTime            string  `json:"end_time"`
-		RecordingDuration  float64 `json:"recording_duration"`
-		ClickCount         float64 `json:"click_count"`
-		KeypressCount      float64 `json:"keypress_count"`
-		ActiveSeconds      float64 `json:"active_seconds"`
-		DistinctID         string  `json:"distinct_id"`
-		StartURL           string  `json:"start_url"`
+		ID                string  `json:"id"`
+		StartTime         string  `json:"start_time"`
+		EndTime           string  `json:"end_time"`
+		RecordingDuration float64 `json:"recording_duration"`
+		ClickCount        float64 `json:"click_count"`
+		KeypressCount     float64 `json:"keypress_count"`
+		ActiveSeconds     float64 `json:"active_seconds"`
+		DistinctID        string  `json:"distinct_id"`
+		StartURL          string  `json:"start_url"`
 	}
 
 	var sessions []session
@@ -141,8 +141,10 @@ func (cmd *SessionsGetCmd) Run(ctx context.Context) error {
 
 	if outfmt.IsPlain(ctx) {
 		headers := []string{"ID", "START_TIME", "END_TIME", "DURATION_S", "CLICKS", "KEYS", "PERSON", "URL"}
-		rows := [][]string{{id, startTime, endTime, fmt.Sprintf("%.0f", duration),
-			fmt.Sprintf("%.0f", clicks), fmt.Sprintf("%.0f", keys), distinctID, startURL}}
+		rows := [][]string{{
+			id, startTime, endTime, fmt.Sprintf("%.0f", duration),
+			fmt.Sprintf("%.0f", clicks), fmt.Sprintf("%.0f", keys), distinctID, startURL,
+		}}
 
 		return outfmt.WritePlain(os.Stdout, headers, rows)
 	}

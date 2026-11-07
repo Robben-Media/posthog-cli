@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"net/url"
 	"os"
 
 	"github.com/Robben-Media/posthog-cli/internal/outfmt"
@@ -164,13 +163,4 @@ func formatQueryResults(ctx context.Context, data []byte) error {
 	}
 
 	return nil
-}
-
-// buildListURL creates a paginated list URL with query parameters.
-func buildListURL(basePath string, params url.Values) string {
-	if len(params) == 0 {
-		return basePath
-	}
-
-	return basePath + "?" + params.Encode()
 }

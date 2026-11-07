@@ -142,7 +142,12 @@ func (c *Client) GetRaw(ctx context.Context, path string, params url.Values) ([]
 		return nil, parseAPIError(resp)
 	}
 
-	return io.ReadAll(resp.Body)
+	data, readErr := io.ReadAll(resp.Body)
+	if readErr != nil {
+		return nil, fmt.Errorf("read response body: %w", readErr)
+	}
+
+	return data, nil
 }
 
 // PostRaw performs a POST and returns the raw response bytes.
@@ -157,7 +162,12 @@ func (c *Client) PostRaw(ctx context.Context, path string, body any) ([]byte, er
 		return nil, parseAPIError(resp)
 	}
 
-	return io.ReadAll(resp.Body)
+	data, readErr := io.ReadAll(resp.Body)
+	if readErr != nil {
+		return nil, fmt.Errorf("read response body: %w", readErr)
+	}
+
+	return data, nil
 }
 
 // Query executes a HogQL query and returns raw response bytes.
