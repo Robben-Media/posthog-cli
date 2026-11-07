@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"os"
 )
 
@@ -23,17 +24,36 @@ func DefaultConfig() *Config {
 
 // Load reads the config file from disk. Returns default config if file doesn't exist.
 func Load() (*Config, error) {
-	path, err := ConfigPath()
+	dir, err := ConfigDir()
 	if err != nil {
 		return nil, fmt.Errorf("config path: %w", err)
 	}
 
-	data, err := os.ReadFile(path)
+	// Anchor the fixed config name to the user-selected config directory.
+	// Root prevents a config symlink from escaping that directory.
+	root, err := os.OpenRoot(dir)
 	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {
 			return DefaultConfig(), nil
 		}
 
+		return nil, fmt.Errorf("open config directory: %w", err)
+	}
+	defer root.Close()
+
+	f, err := root.Open("config.json")
+	if err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			return DefaultConfig(), nil
+		}
+
+		return nil, fmt.Errorf("read config: %w", err)
+	}
+
+	defer f.Close()
+
+	data, err := io.ReadAll(f)
+	if err != nil {
 		return nil, fmt.Errorf("read config: %w", err)
 	}
 
