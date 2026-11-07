@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 )
 
 // Config holds the posthog-cli configuration (project ID and region).
@@ -31,7 +32,16 @@ func Load() (*Config, error) {
 
 	// Anchor the fixed config name to the user-selected config directory.
 	// Root prevents a config symlink from escaping that directory.
-	root, err := os.OpenRoot(dir)
+	resolvedDir, err := filepath.EvalSymlinks(dir)
+	if err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			return DefaultConfig(), nil
+		}
+
+		return nil, fmt.Errorf("resolve config directory: %w", err)
+	}
+
+	root, err := os.OpenRoot(resolvedDir)
 	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {
 			return DefaultConfig(), nil
@@ -41,7 +51,21 @@ func Load() (*Config, error) {
 	}
 	defer root.Close()
 
-	f, err := root.Open("config.json")
+	resolvedPath, err := filepath.EvalSymlinks(filepath.Join(resolvedDir, "config.json"))
+	if err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			return DefaultConfig(), nil
+		}
+
+		return nil, fmt.Errorf("resolve config: %w", err)
+	}
+
+	relativePath, err := filepath.Rel(resolvedDir, resolvedPath)
+	if err != nil {
+		return nil, fmt.Errorf("relative config path: %w", err)
+	}
+
+	f, err := root.Open(relativePath)
 	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {
 			return DefaultConfig(), nil

@@ -59,3 +59,34 @@ func TestSaveLoadConfig(t *testing.T) {
 		t.Fatalf("Load = %v, want %v", got, want)
 	}
 }
+
+func TestLoadConfigSymlinkInsideDirectory(t *testing.T) {
+	if runtime.GOOS != "linux" {
+		t.Skip("XDG config directory")
+	}
+
+	t.Setenv("XDG_CONFIG_HOME", t.TempDir())
+
+	dir, err := EnsureConfigDir()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	target := filepath.Join(dir, "actual.json")
+	if writeErr := os.WriteFile(target, []byte(`{"project_id":"linked"}`), 0o600); writeErr != nil {
+		t.Fatal(writeErr)
+	}
+
+	if linkErr := os.Symlink(target, filepath.Join(dir, "config.json")); linkErr != nil {
+		t.Fatal(linkErr)
+	}
+
+	got, err := Load()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if got.ProjectID != "linked" {
+		t.Fatalf("project = %q", got.ProjectID)
+	}
+}
