@@ -1,6 +1,9 @@
 package cmd
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 // ExitError wraps an error with an exit code.
 type ExitError struct {
@@ -34,7 +37,9 @@ func ExitCode(err error) int {
 		return 0
 	}
 
-	if exitErr, ok := err.(*ExitError); ok {
+	var exitErr *ExitError
+
+	if errors.As(err, &exitErr) {
 		return exitErr.Code
 	}
 

@@ -63,8 +63,8 @@ func (cmd *AuthSetKeyCmd) Run(ctx context.Context) error {
 		return fmt.Errorf("open credential store: %w", err)
 	}
 
-	if err := store.SetAPIKey(apiKey); err != nil {
-		return fmt.Errorf("store API key: %w", err)
+	if storeErr := store.SetAPIKey(apiKey); storeErr != nil {
+		return fmt.Errorf("store API key: %w", storeErr)
 	}
 
 	// Prompt for project ID if not provided
@@ -73,8 +73,8 @@ func (cmd *AuthSetKeyCmd) Run(ctx context.Context) error {
 
 		var id string
 
-		_, err := fmt.Fscanln(os.Stderr, &id)
-		if err == nil {
+		_, scanErr := fmt.Fscanln(os.Stderr, &id)
+		if scanErr == nil {
 			cmd.ProjectID = strings.TrimSpace(id)
 		}
 	}
